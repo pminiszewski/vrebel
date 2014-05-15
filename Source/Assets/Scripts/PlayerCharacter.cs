@@ -32,16 +32,19 @@ public class PlayerCharacter : Character {
     /// <param name="factor"></param>
     public void Thrust(float factor)
     {
+        if (_Thruster != null)
+        {
 
-        if (factor > 0 && !_Thruster.isPlaying)
-        {
-            _ThrusterEnabled = true;
-            _Thruster.Play();
-        }
-        else if (factor == 0 && _Thruster.isPlaying)
-        {
-            _ThrusterEnabled = false;
-            _Thruster.Stop();
+            if (factor > 0 && !_Thruster.isPlaying)
+            {
+                _ThrusterEnabled = true;
+                _Thruster.Play();
+            }
+            else if (factor == 0 && _Thruster.isPlaying)
+            {
+                _ThrusterEnabled = false;
+                _Thruster.Stop();
+            }
         }
     }
 }
