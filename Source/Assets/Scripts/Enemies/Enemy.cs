@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour {
+/// <summary>
+/// Base class for all Enemies in the game.
+/// </summary>
+public abstract class Enemy : MonoBehaviour {
+
+
 
 	// Use this for initialization
-	void Start () {
-	
+	protected virtual void Start () 
+    {
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
+    protected virtual void Update()
+    {
 	
 	}
+
 }
