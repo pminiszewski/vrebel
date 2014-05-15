@@ -3,6 +3,8 @@ using System.Collections;
 
 public abstract class Weapon : MonoBehaviour {
 
+    private bool IsFiring = false;
+
     public float ShootFrequency = 1;
     public float Damage = 1;
 
@@ -21,8 +23,26 @@ public abstract class Weapon : MonoBehaviour {
 	}
 
 
-    public virtual void Fire()
+    public virtual void StartFire()
     {
+        if (ShootFrequency > 0)
+        {
+            StartCoroutine("Fire");
+            IsFiring = true;
+        }
+    }
+    public virtual void EndFire()
+    {
+        if (IsFiring)
+        {
+            IsFiring = false;
+            StopCoroutine("Fire");
+        }
+    }
 
+    protected IEnumerator Fire()
+    {
+        Debug.Log("Pew!");
+        yield return new WaitForSeconds(1f / ShootFrequency);
     }
 }

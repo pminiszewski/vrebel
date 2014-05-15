@@ -2,6 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+enum AIState
+{
+    Idle,
+    Firing
+};
+
 /// <summary>
 /// A character class holds all gameplay elements related to character visible in the level.
 /// It controls Aiming, Thruster and other related features
@@ -14,6 +20,13 @@ public class Character : MonoBehaviour {
     private Weapon CurrentWeapon;
 
     /// <summary>
+    /// A state that AI is in.
+    /// </summary>
+    private AIState _State;
+
+    private Character _SightedEnemy = null;
+
+    /// <summary>
     /// Prefab of weapon that will be given to player after game start
     /// </summary>
     public List<Weapon> AvailableWeapons = new List<Weapon>();
@@ -21,8 +34,9 @@ public class Character : MonoBehaviour {
 
     
 	// Use this for initialization
-	void Start () {
-	
+    protected virtual void Start()
+    {
+	    
 	}
 
     protected virtual void Awake()
@@ -35,6 +49,7 @@ public class Character : MonoBehaviour {
                 if (t.tag == "MountPoint")
                 {
                     GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count-1)].gameObject, t.position, Quaternion.identity) as GameObject;
+                    weaponObject.transform.parent = transform;
                     CurrentWeapon = weaponObject.GetComponent<Weapon>();
                 }
             }
@@ -56,5 +71,31 @@ public class Character : MonoBehaviour {
         
     }
 
-    
+    private IEnumerator Think()
+    {
+        while (true)
+        {
+            switch (_State)
+            {
+                case AIState.Idle:
+                    ExecuteIdle();
+                    break;
+                case AIState.Firing:
+                    ExecuteFiring();
+                    break;
+                default:
+                    break;
+            }
+            yield return new  WaitForSeconds(0.2f);
+        }
+    }
+
+    private void ExecuteIdle()
+    {
+    }
+
+    private void ExecuteFiring()
+    {
+
+    }
 }

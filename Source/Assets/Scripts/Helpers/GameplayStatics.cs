@@ -8,15 +8,15 @@ public static class GameplayStatics
 {
     private static T Get<T>(string tag) where T : MonoBehaviour
     {
-        GameObject go = GameObject.FindGameObjectWithTag("Character");
+        GameObject go = GameObject.FindGameObjectWithTag(tag);
         if (go == null)
         {
-            Debug.LogError("No object with tag Character in the scene.");
+            Debug.LogError("No object with tag "+tag+" in the scene.");
         }
         T comp = go.GetComponent<T>();
         if (comp == null)
         {
-            Debug.LogError("Character object has no Character component.");
+            Debug.LogError("Character object has no "+typeof(T).Name+" component.");
         }
         return comp;
     }

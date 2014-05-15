@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
 	}
     void Awake()
     {
-        _Character = GameplayStatics.Character;
+        _Character = GameplayStatics.Character ;
     }
 	// Update is called once per frame
 	void Update () 
