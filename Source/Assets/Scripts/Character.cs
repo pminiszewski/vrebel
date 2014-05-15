@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// A character class holds all gameplay elements related to character visible in the level.
@@ -7,53 +8,53 @@ using System.Collections;
 /// </summary>
 public class Character : MonoBehaviour {
 
-    private ParticleSystem _Thruster;
-    private bool _ThrusterEnabled;
+    /// <summary>
+    /// Weapon, the player is currently holding
+    /// </summary>
+    private Weapon CurrentWeapon;
 
     /// <summary>
-    /// The amount of thrust that can be applies to the character
+    /// Prefab of weapon that will be given to player after game start
     /// </summary>
-    public float MaxThrust = 40;
+    public List<Weapon> AvailableWeapons = new List<Weapon>();
+
+
     
 	// Use this for initialization
 	void Start () {
 	
 	}
 
-    void Awake()
+    protected virtual void Awake()
     {
-        _Thruster = gameObject.GetComponentInChildren<ParticleSystem>();
+        
+        if (AvailableWeapons.Count > 0)
+        {
+            foreach (var t in gameObject.GetComponentsInChildren<Transform>())
+            {
+                if (t.tag == "MountPoint")
+                {
+                    GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count-1)].gameObject, t.position, Quaternion.identity) as GameObject;
+                    CurrentWeapon = weaponObject.GetComponent<Weapon>();
+                }
+            }
+            
+        }
+        else
+        {
+            Debug.LogWarning("Character has no available weapons.");
+        }
     }
 	
 	// Update is called once per frame
-	void Update () 
+    protected virtual void Update() 
     {
 	
 	}
-    void FixedUpdate()
-    {
-        if (_ThrusterEnabled)
-        {
-            rigidbody.AddForce(0, MaxThrust, 0);
-        }
-    }
-
-    /// <summary>
-    /// Called from Player character when user enables thrust
-    /// </summary>
-    /// <param name="factor"></param>
-    public void Thrust(float factor)
+    protected virtual void FixedUpdate()
     {
         
-        if (factor > 0 && !_Thruster.isPlaying )
-        {
-            _ThrusterEnabled = true;
-            _Thruster.Play();
-        }
-        else if (factor == 0 && _Thruster.isPlaying)
-        {
-            _ThrusterEnabled = false;
-            _Thruster.Stop();
-        }
     }
+
+    
 }
