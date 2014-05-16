@@ -7,6 +7,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     private PlayerCharacter _Character;
+    private bool DeadPlayerKeyDown = false;
 
 	// Use this for initialization
 	private void Start () {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour {
     {
         _Character = GameplayStatics.Character ;
     }
+    
 	// Update is called once per frame
 	private void Update () 
     {
@@ -27,19 +29,32 @@ public class PlayerController : MonoBehaviour {
             switch (GameController.GetGameState())
             {
                 case GameState.PrePlay:
-                    if (thrust > 0)
+                    if (Input.GetKeyDown(KeyCode.Space))
                     {
                         GameController.SetGameState(GameState.Playing);
                     }
                     break;
                 case GameState.Playing:
-                    if (thrust >= 0)
+                    if (Input.GetKey(KeyCode.Space))
                     {
-                        _Character.Thrust(thrust);
+                        _Character.Thrust(1);
+                    }
+                    else
+                    {
+                        _Character.Thrust(0);
                     }
                     break;
                 case GameState.Dead:
-                    
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        DeadPlayerKeyDown = true;
+                    }
+                    if (Input.GetKeyUp(KeyCode.Space) && DeadPlayerKeyDown)
+                    {
+                        DeadPlayerKeyDown = false;
+                        GameController.SetGameState(GameState.Reloading);
+                        
+                    }
                     break;
                 default:
                     break;
@@ -51,6 +66,20 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+    private void DrawDeadGUI()
+    {
+        GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+        GUILayout.BeginVertical(GUILayout.ExpandHeight(true));
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("You are dead. Press space to retry.");
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
+    }
     private void DrawPrePlayGUI()
     {
         GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
@@ -58,7 +87,7 @@ public class PlayerController : MonoBehaviour {
         GUILayout.FlexibleSpace();
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label("Press LMB to begin.");
+        GUILayout.Label("Press space to fly.");
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.FlexibleSpace();
@@ -76,6 +105,7 @@ public class PlayerController : MonoBehaviour {
             case GameState.Playing:
                 break;
             case GameState.Dead:
+                DrawDeadGUI();
                 break;
             default:
                 break;
