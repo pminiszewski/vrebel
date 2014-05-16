@@ -71,7 +71,6 @@ public abstract class Weapon : MonoBehaviour {
             if(ProjectilePrefab != null)
             {
                 Projectile pr = ProjectilePrefab.GetComponent<Projectile>().Spawn(WeaponTipPosition, Quaternion.identity);
-                
                 if (pr == null)
                 {
                     Debug.LogError("Invalid projectile prefab");

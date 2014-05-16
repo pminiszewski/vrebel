@@ -34,7 +34,7 @@ public class Character : MonoBehaviour {
     /// <summary>
     /// Prefab of weapon that will be given to player after game start
     /// </summary>
-    public List<Weapon> AvailableWeapons = new List<Weapon>();
+    public List<GameObject> AvailableWeapons = new List<GameObject>();
 
     public float MaxHealth = 3;
 
@@ -120,7 +120,7 @@ public class Character : MonoBehaviour {
             {
                 if (t.tag == "MountPoint")
                 {
-                    GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count-1)].gameObject, t.position, Quaternion.identity) as GameObject;
+                    GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count-1)], t.position, Quaternion.identity) as GameObject;
                     weaponObject.transform.parent = transform;
                     weaponObject.transform.forward = t.right;
                     CurrentWeapon = weaponObject.GetComponent<Weapon>();
