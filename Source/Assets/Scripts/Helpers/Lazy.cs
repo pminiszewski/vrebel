@@ -39,6 +39,10 @@ public class Lazy<T> where T : class, new()
     {
         _InitFunc = initFunc;
     }
+    public void Reset()
+    {
+        _Value = null;
+    }
     public static implicit operator T(Lazy<T> d)
     {
         return d.Value;

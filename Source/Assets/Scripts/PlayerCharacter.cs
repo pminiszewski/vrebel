@@ -11,24 +11,20 @@ public class PlayerCharacter : Character {
     /// </summary>
     public float MaxThrust = 40;
 
-    
-
-    protected override void Awake()
+    protected override void Start()
     {
         _Thruster = gameObject.GetComponentInChildren<ParticleSystem>();
-        base.Awake();
     }
 
     protected override void FixedUpdate()
     {
+        
         base.FixedUpdate();
         if (_ThrusterEnabled)
         {
             rigidbody.AddForce(0, MaxThrust, 0);
         }
     }
-
-    
 
     /// <summary>
     /// Called from Player character when user enables thrust
@@ -38,7 +34,6 @@ public class PlayerCharacter : Character {
     {
         if (_Thruster != null)
         {
-
             if (factor > 0 && !_Thruster.isPlaying)
             {
                 _ThrusterEnabled = true;
@@ -50,6 +45,11 @@ public class PlayerCharacter : Character {
                 _Thruster.Stop();
             }
         }
+    }
+
+    public override void Killed()
+    {
+        GameController.SetGameState(GameState.Dead);
     }
 
    

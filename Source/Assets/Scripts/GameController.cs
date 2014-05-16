@@ -4,16 +4,18 @@ using System.Collections;
 public enum GameState
 {
     InGUI,
+    Reloading,
     PrePlay,
     Playing,
     Dead
 }; 
 
 public class GameController : MonoBehaviour {
-    public delegate void GameStateChangedDelegate(GameState newState);
-    private static GameState _GameState = GameState.PrePlay;
+    
+    private static GameState _GameState = GameState.Reloading;
 
     public static event GameStateChangedDelegate GameStateChanged;
+    public delegate void GameStateChangedDelegate(GameState newState);
 
     public static GameState GetGameState()
     {
@@ -36,6 +38,7 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GameStateChanged += GameController_GameStateChanged;
+        SetGameState(GameState.PrePlay);
 	}
 
     void GameController_GameStateChanged(GameState newState)
@@ -46,6 +49,15 @@ public class GameController : MonoBehaviour {
                 break;
             case GameState.PrePlay:
                 break;
+            case GameState.Reloading:
+                GameplayStatics.Reset();
+                Application.LoadLevel("Entry");
+                foreach (var d in GameStateChanged.GetInvocationList())
+                {
+                    GameStateChanged -= (GameStateChangedDelegate)d;
+
+                }
+                break;
             case GameState.Playing:
                 break;
             case GameState.Dead:
@@ -54,9 +66,5 @@ public class GameController : MonoBehaviour {
                 break;
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

@@ -6,7 +6,7 @@ using System.Collections;
 /// </summary>
 public static class GameplayStatics
 {
-    private static T Get<T>(string tag) where T : MonoBehaviour
+    public static T Get<T>(string tag) where T : MonoBehaviour
     {
         GameObject go = GameObject.FindGameObjectWithTag(tag);
         if (go == null)
@@ -20,7 +20,16 @@ public static class GameplayStatics
         }
         return comp;
     }
-
+    /// <summary>
+    /// Used during level restart to reset references
+    /// </summary>
+    public static void Reset()
+    {
+        Character.Reset();
+        GameController.Reset();
+        ObjectPool.Reset();
+        PlayerController.Reset();
+    }
     public static Lazy<PlayerCharacter> Character = new Lazy<PlayerCharacter>(() => { return Get<PlayerCharacter>("Character"); });
     public static Lazy<GameController> GameController = new Lazy<GameController>(() => { return Get<GameController>("GameController"); });
     public static Lazy<ObjectPool> ObjectPool = new Lazy<ObjectPool>(() => 

@@ -151,17 +151,22 @@ public class Character : MonoBehaviour {
     protected virtual void OnGUI()
     {
     }
-    protected virtual void Killed()
+    public virtual void Killed()
     {
-
+        
+    }
+    public void Kill()
+    {
+        Killed();
+        this.Release();
     }
     public void OnHit(Projectile proj)
     {
         Health -= proj.Damage;
         if (Health <= 0)
         {
-            Killed();
-            Destroy(gameObject);
+            Kill();
+            
         }
     }
 }

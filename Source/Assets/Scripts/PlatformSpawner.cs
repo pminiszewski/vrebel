@@ -42,6 +42,7 @@ public class PlatformSpawner : MonoBehaviour {
             case GameState.PrePlay:
                 break;
             case GameState.Playing:
+                
                 StartCoroutine("SpawnPlatforms");
                 break;
             case GameState.Dead:
