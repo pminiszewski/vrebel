@@ -10,13 +10,17 @@ public class Projectile : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-	
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+    void Awake()
+    {
+        StartCoroutine("BulletTimeout");
+    }
 
     void OnCollisionEnter(Collision colision)
     {
@@ -25,7 +29,7 @@ public class Projectile : MonoBehaviour
         {
             c.OnHit(this);
         }
-        Destroy(gameObject);
+        this.Release();
     }
 
     IEnumerator BulletTimeout()
@@ -34,7 +38,7 @@ public class Projectile : MonoBehaviour
         {
 
             yield return new WaitForSeconds(LifeSpan);
-            Destroy(gameObject);
+            this.Release();
         }
 
     }

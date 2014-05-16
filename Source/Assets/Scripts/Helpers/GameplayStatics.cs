@@ -23,6 +23,7 @@ public static class GameplayStatics
 
     public static Lazy<PlayerCharacter> Character = new Lazy<PlayerCharacter>(() => { return Get<PlayerCharacter>("Character"); });
     public static Lazy<GameController> GameController = new Lazy<GameController>(() => { return Get<GameController>("GameController"); });
+    public static Lazy<ObjectPool> ObjectPool = new Lazy<ObjectPool>(() => { return Get<ObjectPool>("GameController"); });
     public static Lazy<PlayerController> PlayerController = new Lazy<PlayerController>(() => { return Get<PlayerController>("Player"); });
 
 

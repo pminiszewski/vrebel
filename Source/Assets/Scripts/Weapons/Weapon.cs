@@ -9,6 +9,7 @@ public abstract class Weapon : MonoBehaviour {
 #region Inspector variables
     public float ShootFrequency = 1;
     public GameObject ProjectilePrefab;
+    
 #endregion
 
     public Vector3 WeaponTipPosition
@@ -27,6 +28,7 @@ public abstract class Weapon : MonoBehaviour {
 
     protected virtual void Awake()
     {
+        ProjectilePrefab.GetComponent<Projectile>().RegisterPrefab();
         foreach (var t in GetComponentsInChildren<Transform>())
         {
             if (t.tag == "WeaponBarrelTip")
@@ -68,8 +70,8 @@ public abstract class Weapon : MonoBehaviour {
         {
             if(ProjectilePrefab != null)
             {
-                GameObject go = Instantiate(ProjectilePrefab, WeaponTip.position, Quaternion.identity) as GameObject;
-                Projectile pr = go.GetComponent<Projectile>();
+                Projectile pr = ProjectilePrefab.GetComponent<Projectile>().Spawn(WeaponTipPosition, Quaternion.identity);
+                
                 if (pr == null)
                 {
                     Debug.LogError("Invalid projectile prefab");
