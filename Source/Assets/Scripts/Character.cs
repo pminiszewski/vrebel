@@ -140,13 +140,16 @@ public class Character : MonoBehaviour {
     {
         if (_SightedEnemy != null && CurrentWeapon != null)
         {
-            Vector3 weaponToEnemy = Vector3.Normalize(_SightedEnemy.transform.position - CurrentWeapon.transform.position);
+
             CurrentWeapon.transform.LookAt(_SightedEnemy.transform);
         }
 	}
     protected virtual void FixedUpdate()
     {
         
+    }
+    protected virtual void OnGUI()
+    {
     }
     protected virtual void Killed()
     {

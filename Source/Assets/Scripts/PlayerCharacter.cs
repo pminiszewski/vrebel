@@ -11,6 +11,8 @@ public class PlayerCharacter : Character {
     /// </summary>
     public float MaxThrust = 40;
 
+    
+
     protected override void Awake()
     {
         _Thruster = gameObject.GetComponentInChildren<ParticleSystem>();
@@ -25,6 +27,8 @@ public class PlayerCharacter : Character {
             rigidbody.AddForce(0, MaxThrust, 0);
         }
     }
+
+    
 
     /// <summary>
     /// Called from Player character when user enables thrust
@@ -47,4 +51,6 @@ public class PlayerCharacter : Character {
             }
         }
     }
+
+   
 }
