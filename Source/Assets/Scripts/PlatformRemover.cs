@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Used to remove platforms and characters that below user screen.
+/// </summary>
 public class PlatformRemover : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)

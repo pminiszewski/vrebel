@@ -94,15 +94,37 @@ public class ObjectPool : MonoBehaviour
 
 public static class ObjectPoolExtensions
 {
+    /// <summary>
+    /// Get object from pool.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="type"></param>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
+    /// <returns></returns>
     public static T Spawn<T>(this T type, Vector3 position, Quaternion rotation) where T : MonoBehaviour
     {
         var r = GameplayStatics.ObjectPool.Value.Spawn<T>(type, position, rotation);
         return r;
     }
+
+    /// <summary>
+    /// Release object into pool.
+    /// IMPORTANT: References to released objects not always become null. Check ActiveInHierarchy instead.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
     public static void Release<T>(this T obj) where T : MonoBehaviour
     {
         GameplayStatics.ObjectPool.Value.Release<T>(obj);
     }
+
+
+    /// <summary>
+    /// Used to register prefabs with the pool. This has to be done before spawning any prefab of given type.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="type"></param>
     public static void RegisterPrefab<T>(this T type) where T : MonoBehaviour
     {
         GameplayStatics.ObjectPool.Value.RegisterPrefab(type);

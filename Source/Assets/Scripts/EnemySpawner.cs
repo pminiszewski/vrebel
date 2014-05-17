@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// EnemySpawner is used to spawn enemies on platforms.
+/// </summary>
 public class EnemySpawner : MonoBehaviour {
 
     public List<GameObject> ValidEnemies = new List<GameObject>();

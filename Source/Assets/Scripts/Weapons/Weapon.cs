@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Base weapon class.
+/// Defines Weapon projectile type, fire rate, etc.
+/// </summary>
 public abstract class Weapon : MonoBehaviour {
 
     private bool IsFiring = false;

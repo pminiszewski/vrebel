@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Basic platform that moves vertically at given speed.
+/// </summary>
 public class Platform : MonoBehaviour {
 
     public float MovementSpeed = 0.25f;

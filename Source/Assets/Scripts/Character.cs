@@ -59,7 +59,10 @@ public class Character : MonoBehaviour {
     public bool GodMode = false;
 
    
-
+    /// <summary>
+    /// Main AI loop
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Think()
     {
         while (true)
@@ -78,6 +81,11 @@ public class Character : MonoBehaviour {
             yield return new WaitForSeconds(0.3f);
         }
     }
+
+    /// <summary>
+    /// When no enemy sighted.
+    /// Looks for visible enemies, adjusts weapon aim, starts firing when enemy visible
+    /// </summary>
     private void ExecuteIdle()
     {
         float distance = float.MaxValue;
@@ -105,6 +113,10 @@ public class Character : MonoBehaviour {
             _State = AIState.Firing;
         }
     }
+
+    /// <summary>
+    /// Called when AI is firing at enemy. Checks if enemy is still valid. If not go to idle.
+    /// </summary>
     private void ExecuteFiring()
     {
         if (_SightedEnemy == null || !_SightedEnemy.gameObject.activeInHierarchy||Physics.Linecast(CurrentWeapon.WeaponTipPosition, _SightedEnemy.transform.position, 1 << 8))

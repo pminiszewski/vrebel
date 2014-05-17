@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Helper object to spawn platforms in the world. At given rate it will spawn platforms, which will have enemies on it.
+/// </summary>
 public class PlatformSpawner : MonoBehaviour {
 
     /// <summary>
@@ -53,6 +56,10 @@ public class PlatformSpawner : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Cooroutine called on when game state is changed to Playing.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SpawnPlatforms()
     {
         while (true)
