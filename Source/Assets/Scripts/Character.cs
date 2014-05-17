@@ -166,13 +166,17 @@ public class Character : MonoBehaviour {
         }
         
     }
-	// Update is called once per frame
+    // Update is called once per frame
+    protected virtual Vector3 GetWeaponAimTarget(Weapon weapon, Character target)
+    {
+        return target.transform.position;
+    }
     protected virtual void Update()
     {
         if (_SightedEnemy != null && CurrentWeapon != null)
         {
 
-            CurrentWeapon.transform.LookAt(_SightedEnemy.transform);
+            CurrentWeapon.transform.LookAt(GetWeaponAimTarget(CurrentWeapon, _SightedEnemy));
         }
 	}
     protected virtual void FixedUpdate()
