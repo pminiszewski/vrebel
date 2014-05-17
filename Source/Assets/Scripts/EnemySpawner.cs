@@ -43,10 +43,9 @@ public class EnemySpawner : MonoBehaviour {
 
         return newEnemies;
     }
-    void OnDrawGizmos()
+    public void OnReachedRemover()
     {
-        
-        //Gizmos.DrawCube(new Vector3(transform.position.x, topPosition, transform.position.z), new Vector3(collider.bounds.size.x,2,collider.bounds.size.z));
+        transform.parent.GetComponent<Platform>().Release();
     }
 	// Update is called once per frame
 	void Update () {

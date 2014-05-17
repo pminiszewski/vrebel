@@ -47,4 +47,8 @@ public class Projectile : MonoBehaviour
         }
 
     }
+    public void OnReachedRemover()
+    {
+        this.Release();
+    }
 }

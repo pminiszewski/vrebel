@@ -195,6 +195,10 @@ public class Character : MonoBehaviour {
         Killed();
         this.Release();
     }
+    public void OnReachedRemover()
+    {
+        Kill();
+    }
     public void OnHit(Projectile proj)
     {
         if (!GodMode)
