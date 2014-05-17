@@ -14,6 +14,8 @@ public class ProjectileRocket : Projectile
     {
         rigidbody.isKinematic = false;
         rigidbody.useGravity = true;
+        rigidbody.AddTorque(Random.onUnitSphere * 3);
+        gameObject.GetComponentInChildren<ParticleSystem>().Stop();
     }
 	
 }

@@ -7,7 +7,8 @@ using System.Collections;
 /// </summary>
 public abstract class Weapon : MonoBehaviour {
 
-    private bool IsFiring = false;
+    private bool _IsFiring = false;
+
     private Transform WeaponTip;
 
 #region Inspector variables
@@ -22,6 +23,10 @@ public abstract class Weapon : MonoBehaviour {
         {
             return WeaponTip.position;
         }
+    }
+    public bool IsFiring
+    {
+        get { return _IsFiring; }
     }
     
 
@@ -57,14 +62,14 @@ public abstract class Weapon : MonoBehaviour {
         if (ShootFrequency > 0)
         {
             StartCoroutine("Fire");
-            IsFiring = true;
+            _IsFiring = true;
         }
     }
     public virtual void EndFire()
     {
-        if (IsFiring)
+        if (_IsFiring)
         {
-            IsFiring = false;
+            _IsFiring = false;
             StopCoroutine("Fire");
         }
     }

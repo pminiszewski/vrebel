@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Available game states
+/// </summary>
 public enum GameState
 {
     InGUI,
@@ -50,9 +53,9 @@ public class GameController : MonoBehaviour {
             case GameState.PrePlay:
                 break;
             case GameState.Reloading:
-                GameplayStatics.Reset();
+                GameplayStatics.Reset(); //Reset all static variables
                 Application.LoadLevel("Entry");
-                foreach (var d in GameStateChanged.GetInvocationList())
+                foreach (var d in GameStateChanged.GetInvocationList()) //Unbind all events
                 {
                     GameStateChanged -= (GameStateChangedDelegate)d;
 

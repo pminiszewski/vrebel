@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
 	void Update () {
 	
 	}
-    protected virtual void Awake()
+    protected virtual  void Awake()
     {
         StartCoroutine("BulletTimeout");
     }
