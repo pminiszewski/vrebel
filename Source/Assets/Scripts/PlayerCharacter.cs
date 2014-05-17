@@ -33,6 +33,20 @@ public class PlayerCharacter : Character {
         }
     }
 
+    protected override void OnGUI()
+    {
+        switch (GameController.GetGameState())
+        {
+            case GameState.Playing:
+            case GameState.Dead:
+                GUILayout.BeginArea(new Rect(30, 30, 200, 100));
+                GUILayout.Label(string.Format("Health: {0}%", Health / MaxHealth * 100));
+                GUILayout.EndArea();
+                break;
+        }
+        
+    }
+
     /// <summary>
     /// Add aiming prediction for moving targets
     /// </summary>

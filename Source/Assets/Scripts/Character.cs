@@ -17,7 +17,7 @@ public class Character : MonoBehaviour {
     /// <summary>
     /// Current health meter
     /// </summary>
-    private float Health;
+    private float _Health;
 
     /// <summary>
     /// Weapon, the player is currently holding
@@ -37,6 +37,9 @@ public class Character : MonoBehaviour {
     public List<GameObject> AvailableWeapons = new List<GameObject>();
 
     public float MaxHealth = 3;
+
+    public float Health { get { return _Health; } }
+
 
     /// <summary>
     /// A tag to be used when looking for enemies
@@ -139,7 +142,7 @@ public class Character : MonoBehaviour {
     protected virtual void Awake()
     {
         
-        Health = MaxHealth;
+        _Health = MaxHealth;
         if (CurrentWeapon != null)
         {
             Destroy(CurrentWeapon.gameObject);
@@ -204,8 +207,8 @@ public class Character : MonoBehaviour {
         if (!GodMode)
         {
 
-            Health -= proj.Damage;
-            if (Health <= 0)
+            _Health -= proj.Damage;
+            if (_Health <= 0)
             {
                 Kill();
 
