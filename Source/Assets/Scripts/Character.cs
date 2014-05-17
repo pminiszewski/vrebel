@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// States of the AI
+/// </summary>
 enum AIState
 {
-    Idle,
-    Firing
+    Idle, //Do nothing; look for enemy
+    Firing //Check if current target is still available
 };
 
 /// <summary>
@@ -14,9 +17,7 @@ enum AIState
 /// </summary>
 public class Character : MonoBehaviour {
 
-    /// <summary>
-    /// Current health meter
-    /// </summary>
+    
     private float _Health;
 
     /// <summary>
@@ -36,8 +37,14 @@ public class Character : MonoBehaviour {
     /// </summary>
     public List<GameObject> AvailableWeapons = new List<GameObject>();
 
+    /// <summary>
+    /// Maximum helath the haracter can have.
+    /// </summary>
     public float MaxHealth = 3;
 
+    /// <summary>
+    /// Current health meter
+    /// </summary>
     public float Health { get { return _Health; } }
 
 
@@ -139,11 +146,12 @@ public class Character : MonoBehaviour {
         OnStart();
     }
     protected virtual void OnStart(){}
+
     protected virtual void Awake()
     {
         
         _Health = MaxHealth;
-        if (CurrentWeapon != null)
+        if (CurrentWeapon != null) //pooled characters can already have a weapon. Destroy it.
         {
             Destroy(CurrentWeapon.gameObject);
         }
@@ -151,7 +159,7 @@ public class Character : MonoBehaviour {
         {
             foreach (var t in gameObject.GetComponentsInChildren<Transform>())
             {
-                if (t.tag == "MountPoint")
+                if (t.tag == "MountPoint") //Spawn a random weapon an attach it in proper place
                 {
                     GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count)], t.position, Quaternion.identity) as GameObject;
                     weaponObject.transform.parent = transform;
@@ -169,7 +177,14 @@ public class Character : MonoBehaviour {
         }
         
     }
-    // Update is called once per frame
+    
+    /// <summary>
+    /// Returns position, the weapon should fire at.
+    /// Useful with different types of weapons with differently behaving projectiles
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
     protected virtual Vector3 GetWeaponAimTarget(Weapon weapon, Character target)
     {
         return target.transform.position;
@@ -198,6 +213,10 @@ public class Character : MonoBehaviour {
         Killed();
         this.Release();
     }
+
+    /// <summary>
+    /// Called when object reaches bottom of the scene
+    /// </summary>
     public void OnReachedRemover()
     {
         Kill();
