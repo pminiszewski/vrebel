@@ -64,7 +64,7 @@ public class PlatformSpawner : MonoBehaviour {
     {
         while (true)
         {
-            float waitFor = (20 / (PlatformSpeed * PlatformAmount)) + Random.Range(-1f, 1f);
+            float waitFor = (20 / (PlatformSpeed * PlatformAmount)) + Random.Range(-3f, 3f);
             if (AvailablePlatformPresets.Count > 0)
             {
 

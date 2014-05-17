@@ -27,4 +27,9 @@ public class Platform : MonoBehaviour {
                 break;
         }
 	}
+
+    public void OnReachedRemover()
+    {
+        this.Release();
+    }
 }
