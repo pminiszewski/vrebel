@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
 	void Update () {
 	
 	}
-    void Awake()
+    protected virtual void Awake()
     {
         StartCoroutine("BulletTimeout");
     }
@@ -32,19 +32,33 @@ public class Projectile : MonoBehaviour
             {
                 c.OnHit(this);
             }
-            
+            PlayImpactEffect();
         }
         this.Release();
     }
+    protected virtual void PlayImpactEffect()
+    {
 
+    }
+    /// <summary>
+    /// Called when projectile exceeds it's lifespan
+    /// </summary>
+    public virtual void OnInvalidate()
+    {
+        this.Release();
+    }
     IEnumerator BulletTimeout()
     {
         while (true)
         {
 
             yield return new WaitForSeconds(LifeSpan);
-            this.Release();
+            OnInvalidate();
         }
 
+    }
+    public void OnReachedRemover()
+    {
+        this.Release();
     }
 }

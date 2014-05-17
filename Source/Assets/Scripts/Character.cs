@@ -17,7 +17,7 @@ public class Character : MonoBehaviour {
     /// <summary>
     /// Current health meter
     /// </summary>
-    private float Health;
+    private float _Health;
 
     /// <summary>
     /// Weapon, the player is currently holding
@@ -37,6 +37,9 @@ public class Character : MonoBehaviour {
     public List<GameObject> AvailableWeapons = new List<GameObject>();
 
     public float MaxHealth = 3;
+
+    public float Health { get { return _Health; } }
+
 
     /// <summary>
     /// A tag to be used when looking for enemies
@@ -139,7 +142,7 @@ public class Character : MonoBehaviour {
     protected virtual void Awake()
     {
         
-        Health = MaxHealth;
+        _Health = MaxHealth;
         if (CurrentWeapon != null)
         {
             Destroy(CurrentWeapon.gameObject);
@@ -150,7 +153,7 @@ public class Character : MonoBehaviour {
             {
                 if (t.tag == "MountPoint")
                 {
-                    GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count-1)], t.position, Quaternion.identity) as GameObject;
+                    GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count)], t.position, Quaternion.identity) as GameObject;
                     weaponObject.transform.parent = transform;
                     weaponObject.transform.forward = t.right;
                     CurrentWeapon = weaponObject.GetComponent<Weapon>();
@@ -166,13 +169,17 @@ public class Character : MonoBehaviour {
         }
         
     }
-	// Update is called once per frame
+    // Update is called once per frame
+    protected virtual Vector3 GetWeaponAimTarget(Weapon weapon, Character target)
+    {
+        return target.transform.position;
+    }
     protected virtual void Update()
     {
         if (_SightedEnemy != null && CurrentWeapon != null)
         {
 
-            CurrentWeapon.transform.LookAt(_SightedEnemy.transform);
+            CurrentWeapon.transform.LookAt(GetWeaponAimTarget(CurrentWeapon, _SightedEnemy));
         }
 	}
     protected virtual void FixedUpdate()
@@ -191,13 +198,17 @@ public class Character : MonoBehaviour {
         Killed();
         this.Release();
     }
+    public void OnReachedRemover()
+    {
+        Kill();
+    }
     public void OnHit(Projectile proj)
     {
         if (!GodMode)
         {
 
-            Health -= proj.Damage;
-            if (Health <= 0)
+            _Health -= proj.Damage;
+            if (_Health <= 0)
             {
                 Kill();
 

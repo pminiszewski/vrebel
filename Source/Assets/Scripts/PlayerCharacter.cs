@@ -33,6 +33,44 @@ public class PlayerCharacter : Character {
         }
     }
 
+    protected override void OnGUI()
+    {
+        switch (GameController.GetGameState())
+        {
+            case GameState.Playing:
+            case GameState.Dead:
+                GUILayout.BeginArea(new Rect(30, 30, 200, 100));
+                GUILayout.Label(string.Format("Health: {0}%", Health / MaxHealth * 100));
+                GUILayout.EndArea();
+                break;
+        }
+        
+    }
+
+    /// <summary>
+    /// Add aiming prediction for moving targets
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    protected override Vector3 GetWeaponAimTarget(Weapon weapon, Character target)
+    {
+        float projectileSpeed = weapon.ProjectilePrefab.GetComponent<Projectile>().Speed;
+        Platform p = target.transform.parent.GetComponent<Platform>();
+        if(p != null) //If enemy is based on platform, adjust projectile trajectory to platform movement speed
+        {
+            float platformSpeed = p.MovementSpeed;
+            float targetDistance = Vector3.Distance(weapon.WeaponTipPosition, target.transform.position); //Distance from weapon to target
+            float projTravelTime = targetDistance / projectileSpeed; //Time it takes projectile to hit target;
+            return target.transform.position + new Vector3(0, -projTravelTime * platformSpeed, 0);
+        }
+        else
+        {
+            return base.GetWeaponAimTarget(weapon, target);
+        }
+
+
+    }
+
     /// <summary>
     /// Called from Player character when user enables thrust
     /// </summary>
