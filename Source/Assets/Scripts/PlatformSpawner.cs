@@ -57,20 +57,28 @@ public class PlatformSpawner : MonoBehaviour {
     {
         while (true)
         {
-            float waitFor = (20/(PlatformSpeed * PlatformAmount))+Random.Range(-1f,1f) ;
-            if(AvailablePlatformPresets.Count > 0)
+            float waitFor = (20 / (PlatformSpeed * PlatformAmount)) + Random.Range(-1f, 1f);
+            if (AvailablePlatformPresets.Count > 0)
             {
 
                 GameObject randomPlatform = AvailablePlatformPresets[Random.Range(0, AvailablePlatformPresets.Count - 1)];
                 Platform p = randomPlatform.GetComponent<Platform>().Spawn(transform.position, Quaternion.identity);
-                p.transform.localScale = new Vector3(Random.Range(PlatformWidthMin, PlatformWidthMax), 1, 1);
                 p.MovementSpeed = PlatformSpeed;
-            }
-                else
+
+                EnemySpawner enemySpawner = p.gameObject.GetComponentInChildren<EnemySpawner>();
+                enemySpawner.transform.localScale = new Vector3(Random.Range(PlatformWidthMin, PlatformWidthMax), 1, 1);
+                List<Character> enemies = enemySpawner.SpawnEnemies();
+
+                foreach (var enemy in enemies)
                 {
-                    break;
+                    enemy.transform.parent = p.transform;
                 }
-            yield return new WaitForSeconds(waitFor );
+            }
+            else
+            {
+                break;
+            }
+            yield return new WaitForSeconds(waitFor);
         }
     }
 	

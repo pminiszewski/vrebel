@@ -70,7 +70,8 @@ public abstract class Weapon : MonoBehaviour {
         {
             if(ProjectilePrefab != null)
             {
-                Projectile pr = ProjectilePrefab.GetComponent<Projectile>().Spawn(WeaponTipPosition, Quaternion.identity);
+                //Projectile pr = (Instantiate(ProjectilePrefab, WeaponTipPosition, Quaternion.identity) as GameObject).GetComponent<Projectile>(); //Construct new projectile
+                Projectile pr = ProjectilePrefab.GetComponent<Projectile>().Spawn(WeaponTipPosition, Quaternion.identity); //Get projectile from pool
                 if (pr == null)
                 {
                     Debug.LogError("Invalid projectile prefab");

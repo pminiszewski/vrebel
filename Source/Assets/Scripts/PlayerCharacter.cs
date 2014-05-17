@@ -11,8 +11,15 @@ public class PlayerCharacter : Character {
     /// </summary>
     public float MaxThrust = 40;
 
-    protected override void Start()
+    /// <summary>
+    /// Thrust will be enabled all the time
+    /// </summary>
+    public bool AutoThrust = false;
+
+
+    protected override void OnStart()
     {
+        _ThrusterEnabled = false;
         _Thruster = gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
@@ -34,7 +41,7 @@ public class PlayerCharacter : Character {
     {
         if (_Thruster != null)
         {
-            if (factor > 0 && !_Thruster.isPlaying)
+            if (factor > 0 && !_Thruster.isPlaying || AutoThrust)
             {
                 _ThrusterEnabled = true;
                 _Thruster.Play();

@@ -24,10 +24,15 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision colision)
     {
-        Character c = colision.collider.GetComponent<Character>();
-        if (c != null)
+        foreach (var contact in colision.contacts)
         {
-            c.OnHit(this);
+
+            Character c = contact.otherCollider.GetComponent<Character>();
+            if (c != null)
+            {
+                c.OnHit(this);
+            }
+            
         }
         this.Release();
     }

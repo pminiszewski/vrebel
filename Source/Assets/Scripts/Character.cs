@@ -48,6 +48,18 @@ public class Character : MonoBehaviour {
     /// </summary>
     public float FireRateMultiplier = 1;
 
+    /// <summary>
+    /// Force character not to shoot
+    /// </summary>
+    public bool CeaseFire = false;
+
+    /// <summary>
+    /// Make character invincible.
+    /// </summary>
+    public bool GodMode = false;
+
+   
+
     private IEnumerator Think()
     {
         while (true)
@@ -80,14 +92,13 @@ public class Character : MonoBehaviour {
 
                 if (!Physics.Linecast(CurrentWeapon.WeaponTipPosition, e.transform.position, 1 << 8))
                 {
-                    Debug.DrawLine(CurrentWeapon.WeaponTipPosition, e.transform.position, Color.white, 1);
                     closestEnemy = e.GetComponent<Character>();
                 }
 
                 distance = d;
             }
         }
-        if (closestEnemy != null)
+        if (closestEnemy != null && !CeaseFire)
         {
             _SightedEnemy = closestEnemy;
             CurrentWeapon.StartFire();
@@ -96,24 +107,31 @@ public class Character : MonoBehaviour {
     }
     private void ExecuteFiring()
     {
-        if (_SightedEnemy == null || Physics.Linecast(CurrentWeapon.WeaponTipPosition, _SightedEnemy.transform.position, 1 << 8))
+        if (_SightedEnemy == null || !_SightedEnemy.gameObject.activeInHierarchy||Physics.Linecast(CurrentWeapon.WeaponTipPosition, _SightedEnemy.transform.position, 1 << 8))
         {
             CurrentWeapon.EndFire();
             _SightedEnemy = null;
             _State = AIState.Idle;
             return;
         }
-        Debug.DrawLine(CurrentWeapon.WeaponTipPosition, _SightedEnemy.transform.position, Color.red, 1);
+        //Debug.DrawLine(CurrentWeapon.WeaponTipPosition, _SightedEnemy.transform.position, Color.red, 1);
     }
-    
-	// Use this for initialization
-    protected virtual void Start()
+
+    // Use this for initialization
+    void Start()
     {
         StartCoroutine("Think");
-	}
+        OnStart();
+    }
+    protected virtual void OnStart(){}
     protected virtual void Awake()
     {
+        
         Health = MaxHealth;
+        if (CurrentWeapon != null)
+        {
+            Destroy(CurrentWeapon.gameObject);
+        }
         if (AvailableWeapons.Count > 0)
         {
             foreach (var t in gameObject.GetComponentsInChildren<Transform>())
@@ -134,6 +152,7 @@ public class Character : MonoBehaviour {
         {
             Debug.LogWarning("Character has no available weapons.");
         }
+        
     }
 	// Update is called once per frame
     protected virtual void Update()
@@ -162,11 +181,15 @@ public class Character : MonoBehaviour {
     }
     public void OnHit(Projectile proj)
     {
-        Health -= proj.Damage;
-        if (Health <= 0)
+        if (!GodMode)
         {
-            Kill();
-            
+
+            Health -= proj.Damage;
+            if (Health <= 0)
+            {
+                Kill();
+
+            }
         }
     }
 }

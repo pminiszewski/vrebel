@@ -56,6 +56,7 @@ public class ObjectPool : MonoBehaviour
             obj.transform.rotation = rotation;
             obj.gameObject.SetActive(true);
             obj.gameObject.BroadcastMessage("Awake", SendMessageOptions.DontRequireReceiver);
+            obj.gameObject.BroadcastMessage("Start", SendMessageOptions.DontRequireReceiver);
             
             _RegisteredPrefabInstances.Add(obj, template);
         }
