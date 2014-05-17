@@ -153,7 +153,7 @@ public class Character : MonoBehaviour {
             {
                 if (t.tag == "MountPoint")
                 {
-                    GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count-1)], t.position, Quaternion.identity) as GameObject;
+                    GameObject weaponObject = Instantiate(AvailableWeapons[Random.Range(0, AvailableWeapons.Count)], t.position, Quaternion.identity) as GameObject;
                     weaponObject.transform.parent = transform;
                     weaponObject.transform.forward = t.right;
                     CurrentWeapon = weaponObject.GetComponent<Weapon>();

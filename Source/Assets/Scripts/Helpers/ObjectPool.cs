@@ -15,6 +15,10 @@ public class ObjectPool : MonoBehaviour
     /// <param name="template">prefab to register</param>
     public void RegisterPrefab(MonoBehaviour template)
     {
+        if(template == null)
+        {
+            throw new NullReferenceException();
+        }
         if (!_AvailablePoolObjects.ContainsKey(template))
         {
             _AvailablePoolObjects.Add(template, new List<MonoBehaviour>());

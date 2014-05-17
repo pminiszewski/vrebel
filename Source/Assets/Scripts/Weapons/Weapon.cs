@@ -33,6 +33,7 @@ public abstract class Weapon : MonoBehaviour {
     protected virtual void Awake()
     {
         ProjectilePrefab.GetComponent<Projectile>().RegisterPrefab();
+        //ProjectilePrefab.GetComponent<ProjectileRocket>().RegisterPrefab();
         foreach (var t in GetComponentsInChildren<Transform>())
         {
             if (t.tag == "WeaponBarrelTip")
@@ -83,6 +84,7 @@ public abstract class Weapon : MonoBehaviour {
                     break;
                 }
                 pr.rigidbody.velocity = transform.forward*pr.Speed;
+                pr.transform.forward = transform.forward;
             }
             float frequency = (1f / ShootFrequency );
            
