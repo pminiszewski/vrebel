@@ -33,6 +33,12 @@ public class Character : MonoBehaviour {
     private Character _SightedEnemy = null;
 
     /// <summary>
+    /// Sets to true when target gets acquired. 
+    /// Used to ensure that character won't fire befor adjusting weapon orientation
+    /// </summary>
+    private bool WantsToFire = false;
+
+    /// <summary>
     /// Prefab of weapon that will be given to player after game start
     /// </summary>
     public List<GameObject> AvailableWeapons = new List<GameObject>();
@@ -119,7 +125,8 @@ public class Character : MonoBehaviour {
         if (closestEnemy != null && !CeaseFire)
         {
             _SightedEnemy = closestEnemy;
-            CurrentWeapon.StartFire();
+            
+            WantsToFire = true;
             _State = AIState.Firing;
         }
     }
@@ -195,6 +202,11 @@ public class Character : MonoBehaviour {
         {
 
             CurrentWeapon.transform.LookAt(GetWeaponAimTarget(CurrentWeapon, _SightedEnemy));
+            if (WantsToFire)
+            {
+                CurrentWeapon.StartFire();
+                WantsToFire = false;
+            }
         }
 	}
     protected virtual void FixedUpdate()
